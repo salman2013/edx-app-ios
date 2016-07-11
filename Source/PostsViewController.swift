@@ -333,8 +333,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
-        
-        loadContent()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -560,6 +558,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         controller.addCancelAction()
         self.presentViewController(controller, animated: true, completion:nil)
+    }
+    
+    private func updateSelectedPostAttributes(indexPath: NSIndexPath) {
+        posts[indexPath.row].read = true
+        posts[indexPath.row].unreadCommentCount = 0
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+    }
+    
+    //MARK :- DiscussionNewPostViewControllerDelegate method
+    
+    func newPostController(controller: DiscussionNewPostViewController, addedPost post: DiscussionThread) {
+        loadContent()
     }
     
     // MARK - Pull Refresh
